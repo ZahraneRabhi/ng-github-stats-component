@@ -1,0 +1,156 @@
+<div class="max-w-xl mx-auto mt-10">
+    <!-- GitHub username Form -->
+    <form (submit)="readUsername()" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+                GitHub Username
+            </label>
+            <input [(ngModel)]="nameInput" name="username"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="username" type="text" placeholder="Enter GitHub Username" required>
+        </div>
+        <button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            type="submit">
+            Search
+        </button>
+    </form>
+</div>
+
+<!-- Divider Start -->
+<hr class="my-12 h-2 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-25 dark:via-neutral-400" />
+<!-- Divider End -->
+
+<h1 class="mb-4 text-3xl font-bold leading-none text-center mt-10">Github Score Component</h1>
+<div class="max-w-2xl mx-auto mt-10">
+    <!-- Scoreboard Card -->
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-purple-600 to-indigo-600 p-6 text-white">
+            <!-- GH Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                <path fill-rule="evenodd"
+                    d="M12 2C6.478 2 2 6.478 2 12a9.998 9.998 0 006.836 9.5c.5.092.682-.217.682-.482v-1.692c-2.782.603-3.37-1.341-3.37-1.341-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.068-.607.068-.607 1.002.07 1.529 1.03 1.529 1.03.89 1.527 2.336 1.086 2.905.831.092-.646.349-1.086.635-1.336-2.22-.253-4.555-1.11-4.555-4.942 0-1.091.39-1.983 1.03-2.681-.103-.253-.446-1.271.098-2.65 0 0 .84-.27 2.75 1.023A9.533 9.533 0 0112 6.844a9.52 9.52 0 012.503.336c1.91-1.293 2.75-1.023 2.75-1.023.544 1.379.201 2.397.098 2.65.641.698 1.03 1.59 1.03 2.681 0 3.841-2.337 4.686-4.563 4.933.359.309.678.923.678 1.859v2.754c0 .267.18.577.688.48A10.004 10.004 0 0022 12c0-5.522-4.478-10-10-10z"
+                    clip-rule="evenodd" />
+            </svg>
+            <!-- GH Icon -->
+
+            @if(username == "") {
+            <p class="mt-1 text-lg opacity-75">A Visual overview of your Github data</p>
+            }
+            @else {
+            <h2 class="text-2xl font-semibold">{{ username }}</h2>
+            <p class="mt-1 text-sm opacity-75">A quick overview of {{ username }}'s activity</p>
+            }
+        </div>
+
+        <!-- Content -->
+        <div class="p-6">
+            <!-- User Info -->
+            <div class="flex items-center space-x-4 mb-6">
+                @if(username == "") {
+                    <img src="https://avatar.iran.liara.run/public" alt="User Avatar" class="w-16 h-16 rounded-full">
+                }
+                @else {
+                    <img [src]="user.avatar" alt="User Avatar" class="w-16 h-16 rounded-full">
+                }
+                <div>
+                    <h3 class="text-xl font-semibold">{{ user.name }}</h3>
+                    <p class="text-sm text-gray-500">{{ user.location }}</p>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
+                <!-- Repositories -->
+                <div class="text-center">
+                    <p class="text-3xl font-bold text-purple-600">{{ repositories.length }}</p>
+                    <p class="text-sm text-gray-500">Repositories</p>
+                </div>
+                <!-- Stars -->
+                <div class="text-center">
+                    <p class="text-3xl font-bold text-yellow-500">{{ totalStars }}</p>
+                    <p class="text-sm text-gray-500">Stars</p>
+                </div>
+                <!-- Commits -->
+                <div class="text-center">
+                    <p class="text-3xl font-bold text-green-500">{{ commits.length }}</p>
+                    <p class="text-sm text-gray-500">Commits</p>
+                </div>
+                <!-- Pull Requests -->
+                <div class="text-center">
+                    <p class="text-3xl font-bold text-blue-500">{{ totalPullRequests }}</p>
+                    <p class="text-sm text-gray-500">Pull Requests</p>
+                </div>
+            </div>
+
+            <!-- Recent Repos Section -->
+            <div class="mt-8">
+                <h4 class="text-lg font-semibold mb-3">Recent Repositories</h4>
+                <ul>
+                    <li *ngFor="let repo of repositories | slice:0:3" class="flex items-center justify-between py-2 border-b">
+                        <span>{{ repo.name }}</span>
+                        <span class="text-sm text-gray-500">Stars: {{ repo.stargazers_count }}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="bg-gray-50 p-4 text-center">
+            <button (click)="redirectToProfile(user.accountUrl)"
+                class="text-indigo-600 hover:text-indigo-800 font-medium">View Profile on GitHub</button>
+        </div>
+    </div>
+</div>
+
+<!-- Divider Start -->
+<hr
+    class="my-12 h-2 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-25 dark:via-neutral-400" />
+<!-- Divider End -->
+
+<h1 class="mb-4 text-3xl font-bold leading-none text-center mt-10">Minimized Github Score Component</h1>
+<div class="max-w-md mx-auto mt-10">
+    <!-- Minimalist Scoreboard Card -->
+    <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <!-- User Info -->
+        <div class="flex items-center mb-4">
+                @if(username == "") {
+                    <img src="https://avatar.iran.liara.run/public" alt="User Avatar" class="w-16 h-16 rounded-full">
+                }
+                @else {
+                    <img [src]="user.avatar" alt="User Avatar" class="w-16 h-16 rounded-full">
+                }
+            <div class="ml-4">
+                <h3 class="text-lg font-semibold">{{ username }} Github Stats</h3>
+                <p class="text-sm text-gray-500">{{ username }}</p>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-2 gap-4 text-center">
+            <div>
+                <p class="text-xl font-medium text-gray-800">{{ repositories.length }}</p>
+                <p class="text-xs text-gray-500">Repos</p>
+            </div>
+            <div>
+                <p class="text-xl font-medium text-gray-800">{{ totalStars }}</p>
+                <p class="text-xs text-gray-500">Stars</p>
+            </div>
+            <div>
+                <p class="text-xl font-medium text-gray-800">{{ commits.length }}</p>
+                <p class="text-xs text-gray-500">Commits</p>
+            </div>
+            <div>
+                <p class="text-xl font-medium text-gray-800">{{ totalPullRequests }}</p>
+                <p class="text-xs text-gray-500">PRs</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-6 text-center">
+            <a (click)="redirectToProfile(user.accountUrl)" class="text-sm text-indigo-500 hover:text-indigo-700">View
+                GitHub Profile</a>
+        </div>
+    </div>
+</div>
