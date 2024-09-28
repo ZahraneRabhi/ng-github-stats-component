@@ -33,7 +33,7 @@ Ensure you have the following installed:
 
 ### Step 1: Clone the repository
 ```bash
-git clone https://github.com/ZahraneRabhi/NgGithub.git
+git clone https://github.com/ZahraneRabhi/ng-github-stats-component
 cd ng-github
 ```
 
